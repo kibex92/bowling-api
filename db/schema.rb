@@ -16,11 +16,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_095617) do
 
   create_table "frames", force: :cascade do |t|
     t.bigint "game_id", null: false
-    t.integer "number"
-    t.integer "score"
-    t.integer "first_roll"
-    t.integer "second_roll"
-    t.integer "third_roll"
+    t.integer "number", null: false
+    t.integer "score", default: 0
+    t.integer "first_roll", default: 0
+    t.integer "second_roll", default: 0
+    t.integer "third_roll", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_frames_on_game_id"
