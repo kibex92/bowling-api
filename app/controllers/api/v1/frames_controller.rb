@@ -2,8 +2,14 @@ class Api::V1::FramesController < ApplicationController
     before_action :set_game
     before_action :set_frame, only: [:update]
 
+    def create
+        frame = @game.frames.create!(frame_params)
+        frame.calculate_score
+        render json: frame.reload, status: :created
+    end
     def update
         @frame.update(frame_params)
+        @frame.calculate_score
         render json: @frame, status: :ok
     end
 
@@ -16,6 +22,6 @@ class Api::V1::FramesController < ApplicationController
     end
 
     def frame_params
-        params.permit(:first_roll, :second_roll, :third_roll)
+        params.permit(:first_roll, :second_roll, :third_roll, :game_id)
     end
 end
