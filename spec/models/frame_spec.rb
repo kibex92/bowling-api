@@ -4,6 +4,10 @@ RSpec.describe Frame, type: :model do
   subject(:game) { Game.create }
   subject(:frame) { Frame.create(game: game, first_roll: 5, second_roll: 5) }
   
+  before do
+    allow_any_instance_of(Game).to receive(:create_frames)
+  end
+
   describe 'validations' do
     it { is_expected.to validate_numericality_of(:first_roll) }
     it { is_expected.to validate_numericality_of(:second_roll) }
@@ -13,6 +17,7 @@ RSpec.describe Frame, type: :model do
 
   describe '#set_number' do
     it 'sets the number of the frame' do
+      frame = Frame.create(game: game, first_roll: 5, second_roll: 5)
       expect(frame.number).to eq(1)
     end
 
