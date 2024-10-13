@@ -7,7 +7,7 @@ class Frame < ApplicationRecord
 
   before_validation :set_number, on: :create
 
-
+  default_scope { order(number: :asc) }
 
 
 
