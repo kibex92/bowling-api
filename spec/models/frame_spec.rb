@@ -23,4 +23,57 @@ RSpec.describe Frame, type: :model do
       expect(frame).not_to be_valid
     end
   end
+
+  describe '#calculate_score' do
+    it "returns the sum of the rolls" do
+      frame = Frame.create(game: game, first_roll: 5, second_roll: 5)
+      expect(frame.frame_score).to eq(10)
+    end
+
+    it "calculates the score of 2 normal frames" do
+      first_frame = Frame.create(game: game, first_roll: 5, second_roll: 0)
+      second_frame = Frame.create(game: game, first_roll: 5, second_roll: 0)
+      
+      game.frames.each(&:calculate_score)
+
+      frames = game.frames
+      
+      expect(frames.last.score).to eq(10)
+    end
+
+    it "calculates the score of 2 spare frames" do
+      first_frame = Frame.create(game: game, first_roll: 5, second_roll: 5)
+      second_frame = Frame.create(game: game, first_roll: 5, second_roll: 5)
+      
+      game.frames.each(&:calculate_score)
+
+      frames = game.frames
+      
+      expect(frames.first.score).to eq(15)
+    end
+  end
+
+  it "calculated the score for 3 strike frames" do 
+    first_frame = Frame.create(game: game, first_roll: 10, second_roll: 0)
+    second_frame = Frame.create(game: game, first_roll: 10, second_roll: 0)
+    third_frame = Frame.create(game: game, first_roll: 10, second_roll: 0)
+    
+    game.frames.each(&:calculate_score)
+
+    frames = game.frames
+    
+    expect(frames.first.score).to eq(30)
+  end
+
+  it "calculated the score for 2 strike and a normal frame" do 
+    first_frame = Frame.create(game: game, first_roll: 10, second_roll: 0)
+    second_frame = Frame.create(game: game, first_roll: 10, second_roll: 0)
+    third_frame = Frame.create(game: game, first_roll: 5, second_roll: 0)
+    
+    game.frames.each(&:calculate_score)
+
+    frames = game.frames
+    
+    expect(frames.first.score).to eq(25)
+  end
 end
