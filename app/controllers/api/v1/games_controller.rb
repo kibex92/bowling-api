@@ -6,7 +6,13 @@ class Api::V1::GamesController < ApplicationController
     end
 
     def show
-        render json: {game: @game, frames: @game.frames}
+        render json: {
+            game: {
+              id: @game.id,
+              frames: @game.frames,
+              total_score: @game.frames&.last&.score || 0
+            }
+          }
     end
 
     private
