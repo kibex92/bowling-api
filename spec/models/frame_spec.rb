@@ -35,10 +35,7 @@ RSpec.describe Frame, type: :model do
       second_frame = Frame.create(game: game, first_roll: 5, second_roll: 0)
       
       game.frames.each(&:calculate_score)
-
-      frames = game.frames
-      
-      expect(frames.last.score).to eq(10)
+      expect(game.frames.last.score).to eq(10)
     end
 
     it "calculates the score of 2 spare frames" do
@@ -46,10 +43,7 @@ RSpec.describe Frame, type: :model do
       second_frame = Frame.create(game: game, first_roll: 5, second_roll: 5)
       
       game.frames.each(&:calculate_score)
-
-      frames = game.frames
-      
-      expect(frames.first.score).to eq(15)
+      expect(game.frames.first.score).to eq(15)
     end
   end
 
@@ -59,10 +53,7 @@ RSpec.describe Frame, type: :model do
       third_frame = Frame.create(game: game, first_roll: 10, second_roll: 0)
       
       game.frames.each(&:calculate_score)
-
-      frames = game.frames
-      
-      expect(frames.first.score).to eq(30)
+      expect(game.frames.first.score).to eq(30)
     end
 
     it "calculates the score for 2 strikes and a normal frame" do 
@@ -71,9 +62,17 @@ RSpec.describe Frame, type: :model do
       third_frame = Frame.create(game: game, first_roll: 5, second_roll: 0)
       
       game.frames.each(&:calculate_score)
+      expect(game.frames.first.score).to eq(25)
+    end
 
-      frames = game.frames
+    it "calculates the score for a perfect game" do 
+      9.times do 
+        Frame.create(game: game, first_roll: 10)
+      end
+
+      Frame.create(game: game, first_roll: 10, second_roll: 10, third_roll: 10)
       
-      expect(frames.first.score).to eq(25)
+      game.frames.each(&:calculate_score)
+      expect(game.frames.last.score).to eq(300)
     end
 end
