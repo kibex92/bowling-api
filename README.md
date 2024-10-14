@@ -36,7 +36,18 @@ A simple RESTful API for managing a bowling game. It allows users to create game
    ```bash
    rails s
    ```
-   
+## Testing
+
+To run the test suite:
+
+```bash
+rspec
+```
+
+### Assumptions
+
+- The API is designed for a single-player bowling game as there is no player model implemented.
+  
 ## API Endpoints
 
 ### Games
@@ -54,10 +65,5 @@ A simple RESTful API for managing a bowling game. It allows users to create game
     - `second_roll=integer`
     - For the 10th frame: `third_roll=integer`
 
-## Testing
 
-To run the test suite:
 
-```bash
-rspec
-```
